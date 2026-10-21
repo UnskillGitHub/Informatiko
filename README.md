@@ -1,3 +1,5 @@
 # Informatiko
+
 Informatiko kun Lebedev
+
 ![Смешная картинка](https://github.com/UnskillGitHub/Informatiko/blob/main/sticker.webp)
