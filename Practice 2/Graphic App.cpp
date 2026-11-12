@@ -5,16 +5,12 @@
 
 void drawGraph(sf::RenderWindow& window, std::function<float(float)> func, float xMin, float xMax, float scaleX, float scaleY, sf::Color color) {
     sf::VertexArray graph(sf::LinesStrip);
-
     for (float x = xMin; x <= xMax; x += 0.1f) {
-        float y = func(x); 
-
+        float y = func(x);
         float screenX = 400 + x * scaleX;
         float screenY = 300 - y * scaleY;
-
         graph.append(sf::Vertex(sf::Vector2f(screenX, screenY), color));
     }
-
     window.draw(graph);
 }
 
@@ -48,9 +44,6 @@ int main() {
     yAxis[1].position = sf::Vector2f(400, 550);
     yAxis[1].color = sf::Color::White;
 
-    const float SCALE_X = 30.0f;
-    const float SCALE_Y = 25.0f;
-
     while (window.isOpen()) {
         sf::Event event;
         while (window.pollEvent(event)) {
@@ -61,8 +54,8 @@ int main() {
                 if (event.mouseButton.button == sf::Mouse::Left) {
                     sf::Vector2i mousePos = sf::Mouse::getPosition(window);
 
-                    float mathX = (mousePos.x - 400) / SCALE_X;
-                    float mathY = -(mousePos.y - 300) / SCALE_Y;
+                    float mathX = (mousePos.x - 400) / 30.0f;
+                    float mathY = -(mousePos.y - 300) / 25.0f;
 
                     userPoint.setPosition(mousePos.x - userPoint.getRadius(), mousePos.y - userPoint.getRadius());
                     userPointExists = true;
@@ -71,7 +64,7 @@ int main() {
                     float y2 = 3.0f;
                     std::string zone = "";
 
-                    if (std::abs(mathY - y1) < 0.15f || std::abs(mathY - y2) < 0.15f) {
+                    if (mathY == y1 || mathY == y2) {
                         zone = "Granitsa";
                     }
                     else if (mathY > y1 && mathY < y2) {
@@ -96,12 +89,11 @@ int main() {
         }
 
         window.clear(sf::Color::Black);
-
         window.draw(xAxis);
         window.draw(yAxis);
 
-        drawGraph(window, [](float x) { return std::abs(x); }, -10, 10, SCALE_X, SCALE_Y, sf::Color::Red);
-        drawGraph(window, [](float x) { return 3.0f; }, -10, 10, SCALE_X, SCALE_Y, sf::Color::Blue);
+        drawGraph(window, [](float x) { return std::abs(x); }, -10, 10, 30.0f, 25.0f, sf::Color::Red);
+        drawGraph(window, [](float x) { return 3.0f; }, -10, 10, 30.0f, 25.0f, sf::Color::Blue);
 
         if (userPointExists) {
             window.draw(userPoint);
